@@ -5,4 +5,9 @@
 <web-app>
   <display-name>User Management</display-name>
 
+  <!--Initializing Log4j-->
+  <listener>
+    <listener-class>ua.kh.kryvko.listener.Log4jInit</listener-class>
+  </listener>
+
 </web-app>

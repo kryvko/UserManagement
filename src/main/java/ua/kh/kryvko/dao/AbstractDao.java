@@ -20,7 +20,7 @@ import java.util.Properties;
 public abstract class AbstractDao<T, PK extends Serializable> implements GenericDao<T, PK> {
 
     private final static ComboPooledDataSource DATA_SOURCE;
-    private static final Logger LOGGER = Logger.getLogger(AbstractDao.class.getName());
+    private static final Logger LOGGER = Logger.getLogger("error");
 
     //Configuring connection pool
     static {
@@ -48,6 +48,7 @@ public abstract class AbstractDao<T, PK extends Serializable> implements Generic
         } catch (PropertyVetoException | IOException e) {
             LOGGER.log(Level.ERROR, null, e);
         }
+
     }
 
     public PK create(T newInstance) {
