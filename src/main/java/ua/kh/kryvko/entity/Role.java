@@ -1,7 +1,7 @@
 package ua.kh.kryvko.entity;
 
 /**
- * Role - the entity contains information from ROLE table in database.
+ * RoleName - the entity contains information from ROLE table in database.
  * Explaining: users role for access for some numbers futures in web application
  */
 public class Role {
@@ -29,7 +29,7 @@ public class Role {
 
     @Override
     public String toString() {
-        return "Role{" +
+        return "RoleName{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

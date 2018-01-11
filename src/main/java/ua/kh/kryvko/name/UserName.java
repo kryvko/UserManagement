@@ -3,7 +3,7 @@ package ua.kh.kryvko.name;
 /**
  * Class exists cols names in database table by role
  */
-public class User {
+public class UserName {
 
     private static final String TABLE = "USER";
     private static final String ID = "ID";
@@ -14,6 +14,6 @@ public class User {
     private static final String LAST_NAME = "LAST_NAME";
     private static final String ROLE_ID = "ROLE_ID";
 
-    private User() {
+    private UserName() {
     }
 }

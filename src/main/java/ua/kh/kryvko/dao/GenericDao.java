@@ -1,17 +1,18 @@
 package ua.kh.kryvko.dao;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface GenericDao<T, PK extends Serializable> {
 
-    PK create(T newInstance);
+    void create(T newInstance) throws SQLException;
 
-    T read(PK id);
+    T read(PK id) throws SQLException;
 
-    void update(T transientObject);
+    void update(T transientObject) throws SQLException;
 
-    void delete(T persistentObject);
+    void delete(T persistentObject) throws SQLException;
 
-    List<T> findAll();
+    List<T> findAll() throws SQLException;
 }

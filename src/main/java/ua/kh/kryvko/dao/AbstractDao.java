@@ -12,9 +12,7 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
+import java.sql.*;
 import java.util.Properties;
 
 public abstract class AbstractDao<T, PK extends Serializable> implements GenericDao<T, PK> {
@@ -51,27 +49,7 @@ public abstract class AbstractDao<T, PK extends Serializable> implements Generic
 
     }
 
-    public PK create(T newInstance) {
-        return null;
-    }
-
-    public T read(PK id) {
-        return null;
-    }
-
-    public void update(T transientObject) {
-
-    }
-
-    public void delete(T persistentObject) {
-
-    }
-
-    public List<T> findAll() {
-        return null;
-    }
-
-    private Connection getConnetction() {
+    protected Connection getConnetction() {
         Connection connection = null;
         try {
             InitialContext initialContext = new InitialContext();
