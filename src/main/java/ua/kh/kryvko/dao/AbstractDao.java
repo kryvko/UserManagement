@@ -35,27 +35,32 @@ public abstract class AbstractDao<T, PK extends Serializable> implements Generic
             DATA_SOURCE.setUser(properties.getProperty("db.user"));
             DATA_SOURCE.setPassword("db.password");
 
-            DATA_SOURCE.setProperties(properties);
+            try(InputStream databasePropertiesStream = classLoader.getResourceAsStream("database.properties")) {
+                Properties databaseProperties = new Properties();
+                databaseProperties.load(databasePropertiesStream);
+                DATA_SOURCE.setProperties(databaseProperties);
+            }
 
-            DATA_SOURCE.setMaxStatements(Integer.getInteger(properties.getProperty("dbcp.maxStatements")));
-            DATA_SOURCE.setMaxStatementsPerConnection(Integer.getInteger(properties.getProperty("dbcp.maxStatementsPerConnection")));
-            DATA_SOURCE.setMinPoolSize(Integer.getInteger(properties.getProperty("dbcp.maxPoolSize")));
-            DATA_SOURCE.setAcquireIncrement(Integer.getInteger(properties.getProperty("dbcp.acquireIncrement")));
-            DATA_SOURCE.setMaxPoolSize(Integer.getInteger(properties.getProperty("dbcp.maxPoolSize")));
-            DATA_SOURCE.setMaxIdleTime(Integer.getInteger(properties.getProperty("dbcp.maxIdleTime")));
+
+            DATA_SOURCE.setMaxStatements(Integer.parseInt(properties.getProperty("dbcp.maxStatements")));
+            DATA_SOURCE.setMaxStatementsPerConnection(Integer.parseInt(properties.getProperty("dbcp.maxStatementsPerConnection")));
+            DATA_SOURCE.setMinPoolSize(Integer.parseInt(properties.getProperty("dbcp.minPoolSize")));
+            DATA_SOURCE.setAcquireIncrement(Integer.parseInt(properties.getProperty("dbcp.acquireIncrement")));
+            DATA_SOURCE.setMaxPoolSize(Integer.parseInt(properties.getProperty("dbcp.maxPoolSize")));
+            DATA_SOURCE.setMaxIdleTime(Integer.parseInt(properties.getProperty("dbcp.maxIdleTime")));
         } catch (PropertyVetoException | IOException e) {
             LOGGER.log(Level.ERROR, null, e);
         }
 
     }
 
-    protected Connection getConnetction() {
+    protected Connection getConnection() {
         Connection connection = null;
         try {
-            InitialContext initialContext = new InitialContext();
-            DataSource dataSource = (DataSource) initialContext.lookup(ResourceName.JNDI);
-            connection = dataSource.getConnection();
-        } catch (NamingException | SQLException e) {
+//            InitialContext initialContext = new InitialContext();
+//            DataSource dataSource = (DataSource) initialContext.lookup(ResourceName.JNDI);
+            connection = DATA_SOURCE.getConnection();
+        } catch (SQLException e) {
             LOGGER.log(Level.ERROR, null, e);
         }
         return connection;

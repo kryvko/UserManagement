@@ -17,7 +17,7 @@ public class RoleDao extends AbstractDao<Role, Long> implements Closeable {
 
     private static final Logger LOGGER = Logger.getLogger("error");
 
-    private static final String createString = "INSERT INTO " + RoleName.TABLE + " (" + RoleName.NAME + ") VALUES (?, ?);";
+    private static final String createString = "INSERT INTO " + RoleName.TABLE + " (" + RoleName.NAME + ") VALUES (?);";
     private static final String readString = "SELECT * FROM " + RoleName.TABLE + " WHERE " + RoleName.ID + "=?;";
     private static final String updateString = "UPDATE " + RoleName.TABLE + " SET " + RoleName.NAME + "=? WHERE " + RoleName.ID + "=?;";
     private static final String deleteString = "DELETE FROM " + RoleName.TABLE + " WHERE " + RoleName.ID + "=?;";
@@ -26,7 +26,7 @@ public class RoleDao extends AbstractDao<Role, Long> implements Closeable {
     private final Connection connection;
 
     public RoleDao() throws SQLException {
-        this.connection = getConnetction();
+        this.connection = getConnection();
         connection.setAutoCommit(false);
     }
 

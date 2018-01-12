@@ -6,8 +6,8 @@ package ua.kh.kryvko.name;
 public class RoleName {
 
     public static final String TABLE = "`PROVIDERDB`.`ROLE`";
-    public static final String ID = "`ID`";
-    public static final String NAME = "`NAME`";
+    public static final String ID = "ID";
+    public static final String NAME = "NAME";
 
     private RoleName() {
     }
