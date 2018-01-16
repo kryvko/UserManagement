@@ -3,16 +3,13 @@ package ua.kh.kryvko.dao;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import ua.kh.kryvko.name.ResourceName;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public abstract class AbstractDao<T, PK extends Serializable> implements GenericDao<T, PK> {

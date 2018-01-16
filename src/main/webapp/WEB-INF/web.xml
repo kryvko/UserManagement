@@ -20,9 +20,17 @@
     <servlet-name>Roles</servlet-name>
     <servlet-class>ua.kh.kryvko.servlet.Roles</servlet-class>
   </servlet>
+    <servlet>
+        <servlet-name>Users</servlet-name>
+        <servlet-class>ua.kh.kryvko.servlet.Users</servlet-class>
+    </servlet>
 
-  <servlet-mapping>
+    <servlet-mapping>
     <servlet-name>Roles</servlet-name>
     <url-pattern>/roles</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Users</servlet-name>
+    <url-pattern>/users</url-pattern>
   </servlet-mapping>
 </web-app>

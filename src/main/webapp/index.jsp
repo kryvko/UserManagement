@@ -5,5 +5,6 @@
 <html>
 <body>
     <a href="<c:url value="/roles"/>">Roles</a>
+    <a href="<c:url value="/users"/>">Users</a>
 </body>
 </html>
