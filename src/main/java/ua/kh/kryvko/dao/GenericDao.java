@@ -12,7 +12,7 @@ public interface GenericDao<T, PK extends Serializable> {
 
     void update(T transientObject) throws SQLException;
 
-    void delete(T persistentObject) throws SQLException;
+    void delete(Long id) throws SQLException;
 
     List<T> findAll() throws SQLException;
 }

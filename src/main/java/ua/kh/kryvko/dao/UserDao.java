@@ -64,14 +64,16 @@ public class UserDao extends AbstractDao<User, Long> implements Closeable {
         try(PreparedStatement preparedStatement = connection.prepareStatement(readString)) {
             preparedStatement.setLong(1, id);
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
-                user = new User();
-                user.setId(resultSet.getLong(UserName.ID));
-                user.setLogin(resultSet.getString(UserName.LOGIN));
-                user.setPassword(resultSet.getString(UserName.PASSWORD));
-                user.setEmail(resultSet.getString(UserName.EMAIL));
-                user.setFirstName(resultSet.getString(UserName.FIRST_NAME));
-                user.setLastName(resultSet.getString(UserName.LAST_NAME));
-                user.setRole(new RoleDao().read(resultSet.getLong(UserName.ROLE_ID)));
+                if(resultSet.next()) {
+                    user = new User();
+                    user.setId(resultSet.getLong(UserName.ID));
+                    user.setLogin(resultSet.getString(UserName.LOGIN));
+                    user.setPassword(resultSet.getString(UserName.PASSWORD));
+                    user.setEmail(resultSet.getString(UserName.EMAIL));
+                    user.setFirstName(resultSet.getString(UserName.FIRST_NAME));
+                    user.setLastName(resultSet.getString(UserName.LAST_NAME));
+                    user.setRole(new RoleDao().read(resultSet.getLong(UserName.ROLE_ID)));
+                }
             }
         }
         return user;
@@ -94,9 +96,9 @@ public class UserDao extends AbstractDao<User, Long> implements Closeable {
     }
 
     @Override
-    public void delete(User persistentObject) throws SQLException {
+    public void delete(Long id) throws SQLException {
         try(PreparedStatement preparedStatement = connection.prepareStatement(deleteString)) {
-            preparedStatement.setLong(1, persistentObject.getId());
+            preparedStatement.setLong(1, id);
             if(preparedStatement.executeUpdate() > 0)
                 connection.commit();
         }

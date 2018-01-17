@@ -45,9 +45,11 @@ public class RoleDao extends AbstractDao<Role, Long> implements Closeable {
         try(PreparedStatement preparedStatement = connection.prepareStatement(readString)) {
             preparedStatement.setLong(1, id);
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
-                role = new Role();
-                role.setId(resultSet.getLong(RoleName.ID));
-                role.setName(resultSet.getString(RoleName.NAME));
+                if(resultSet.next()) {
+                    role = new Role();
+                    role.setId(resultSet.getLong(RoleName.ID));
+                    role.setName(resultSet.getString(RoleName.NAME));
+                }
             }
         }
         return role;
@@ -64,9 +66,9 @@ public class RoleDao extends AbstractDao<Role, Long> implements Closeable {
     }
 
     @Override
-    public void delete(Role persistentObject) throws SQLException {
+    public void delete(Long id) throws SQLException {
         try(PreparedStatement preparedStatement = connection.prepareStatement(deleteString)) {
-            preparedStatement.setLong(1, persistentObject.getId());
+            preparedStatement.setLong(1, id);
             if(preparedStatement.executeUpdate() > 0)
                 connection.commit();
         }

@@ -6,5 +6,6 @@
 <body>
     <a href="<c:url value="/roles"/>">Roles</a>
     <a href="<c:url value="/users"/>">Users</a>
+    <a href="<c:url value="/pages/addRole.jsp"/>" >AddRole</a>
 </body>
 </html>

@@ -2,6 +2,7 @@ package ua.kh.kryvko.util;
 
 import com.google.gson.Gson;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +17,10 @@ public class JsonUtil {
             writer.flush();
         }
         return responce;
+    }
+
+    public static <T> T fromJson(ServletRequest request, Class<T> type) throws IOException {
+        return new Gson().fromJson(request.getReader(), type);
     }
 
     private JsonUtil() {
