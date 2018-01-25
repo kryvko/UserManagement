@@ -20,8 +20,8 @@ public class RoleServlet extends HttpServlet {
     private static final int SC_UNPROCESSABLE_ENTITY = 422;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getContentType().equals(CONTENT_TYPE)) {
-            try(RoleDao roleDao = new RoleDao()) {
+        if (request.getContentType().equals(CONTENT_TYPE)) {
+            try (RoleDao roleDao = new RoleDao()) {
                 roleDao.create(JsonUtil.fromJson(request, Role.class));
             } catch (SQLException e) {
                 LOGGER.log(Level.ERROR, null, e);
@@ -33,9 +33,9 @@ public class RoleServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try(RoleDao roleDao = new RoleDao()) {
+        try (RoleDao roleDao = new RoleDao()) {
             String idParam = request.getParameter("ID");
-            if( idParam != null) {
+            if (idParam != null) {
                 JsonUtil.toJson(response, roleDao.read(Long.parseLong(idParam)));
             } else {
                 JsonUtil.toJson(response, roleDao.findAll());
@@ -47,8 +47,8 @@ public class RoleServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getContentType().equals(CONTENT_TYPE)) {
-            try(RoleDao roleDao = new RoleDao()) {
+        if (req.getContentType().equals(CONTENT_TYPE)) {
+            try (RoleDao roleDao = new RoleDao()) {
                 roleDao.update(JsonUtil.fromJson(req, Role.class));
             } catch (SQLException e) {
                 LOGGER.log(Level.ERROR, null, e);
@@ -61,20 +61,17 @@ public class RoleServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getContentType().equals(CONTENT_TYPE)) {
-            try(RoleDao roleDao = new RoleDao()) {
-                String idParam = req.getParameter("ID");
-                if(idParam != null) {
-                    roleDao.delete(Long.parseLong(idParam));
-                } else {
-                    resp.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
-                }
-            } catch (SQLException e) {
-                LOGGER.log(Level.ERROR, null, e);
-                resp.setStatus(SC_UNPROCESSABLE_ENTITY);
+        try (RoleDao roleDao = new RoleDao()) {
+            String idParam = req.getParameter("ID");
+            if (idParam != null) {
+                roleDao.delete(Long.parseLong(idParam));
+            } else {
+                resp.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             }
-        } else {
-            resp.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, null, e);
+            resp.setStatus(SC_UNPROCESSABLE_ENTITY);
         }
+
     }
 }
