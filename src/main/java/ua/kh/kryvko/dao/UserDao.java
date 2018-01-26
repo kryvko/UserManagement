@@ -2,6 +2,7 @@ package ua.kh.kryvko.dao;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import ua.kh.kryvko.entity.Role;
 import ua.kh.kryvko.entity.User;
 import ua.kh.kryvko.name.UserName;
 
@@ -72,7 +73,9 @@ public class UserDao extends AbstractDao<User, Long> implements Closeable {
                     user.setEmail(resultSet.getString(UserName.EMAIL));
                     user.setFirstName(resultSet.getString(UserName.FIRST_NAME));
                     user.setLastName(resultSet.getString(UserName.LAST_NAME));
-                    user.setRole(new RoleDao().read(resultSet.getLong(UserName.ROLE_ID)));
+                    try( RoleDao roleDao = new RoleDao()) {
+                        user.setRole(roleDao.read(resultSet.getLong(UserName.ROLE_ID)));
+                    }
                 }
             }
         }
@@ -106,6 +109,10 @@ public class UserDao extends AbstractDao<User, Long> implements Closeable {
 
     @Override
     public List<User> findAll() throws SQLException {
+        List<Role> roles = new ArrayList<>();
+        try( RoleDao roleDao = new RoleDao() ) {
+            roles = roleDao.findAll();
+        }
         List<User> users = new ArrayList<>();
         try(PreparedStatement preparedStatement = connection.prepareStatement(findAllString)) {
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -117,7 +124,8 @@ public class UserDao extends AbstractDao<User, Long> implements Closeable {
                     user.setEmail(resultSet.getString(UserName.EMAIL));
                     user.setFirstName(resultSet.getString(UserName.FIRST_NAME));
                     user.setLastName(resultSet.getString(UserName.LAST_NAME));
-                    user.setRole(new RoleDao().read(resultSet.getLong(UserName.ROLE_ID)));
+                    Long roleId = resultSet.getLong(UserName.ROLE_ID);
+                    user.setRole(roles.stream().filter(role -> (role.getId().equals(roleId))).findFirst().get());
                     users.add(user);
                 }
             }
