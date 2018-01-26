@@ -94,7 +94,6 @@ public class RoleDao extends AbstractDao<Role, Long> implements Closeable {
     public void close() {
         try {
             connection.close();
-            LOGGER.log(Level.ERROR, "312", new RuntimeException());
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, null, e);
         }
